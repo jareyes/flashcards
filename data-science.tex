@@ -9,6 +9,7 @@
 
 \cardfrontstyle[\sf\bfseries]{headings}
 \cardfrontfootstyle[\small\sf]{right}
+\cardbackstyle{plain}
 
 % Data Science Cards
 \cardfrontfoot{Data Science}
@@ -28,6 +29,21 @@ $r_{nk} \gets \left\{\begin{matrix}[l] 1 &  \text{if } k=\mathrm{argmin}_j \| x_
 \end{flushleft}
 \end{flashcard}
 
+% Least-squares
+\begin{flashcard}{Least Squares Fit}
+\begin{flushleft}
+Given  a linear system $Ax=b$ for any $m\times n$ matrix $A$. A vector $x^*$ is a \emph{least squares solution} of this system if $\|b-Ax^*\| \leq \|b-Ax\|$ for all $x$. 
+\vskip 5pt
+Such a solution can be found by orthogonal project as follows. Let $V$ be the subspace spanned by the columns of $A$. Then  $Ax^* = \mathrm{proj}_V b.$ Therefore $$b-Ax^*\in V^\perp = (\mathop\mathrm{im} A)^\perp = \mathop\mathrm{ker} A^T.$$
+
+Thus $A^T(b-Ax^*)=0$, or equivalently the \emph{normal equation} of the system
+$$A^TAx^* = A^Tb.$$
+When $A$ is invertible, the unique closed-form solution is $x^* = (A^TA)^{-1}A^Tb.$
+\vskip 5pt
+\textsf{\textbf{Note:}} Therefore for any basis $v_i$ of $V$, the matrix of $\mathrm{proj}_V$ is $A(A^TA)^{-1}A^T$, where $A = \begin{bmatrix} v_1 \cdots v_n\end{bmatrix}$.
+\end{flushleft}
+\end{flashcard}
+
 % Metropolis-Hastings Algorithm
 \begin{flashcard}{Metropolis-Hastings Algorithm\\(MCMC)}
 \textsc{Goal:} Sample from a target distribution $p=\tilde{p}(z)/Z_p$, with normalization constant $Z_p$, using a simpler proposal distribution $q$.
@@ -42,12 +58,26 @@ The first term in the acceptance product represents movement to $z^*$; the secon
 \end{flushleft}
 \end{flashcard}
 
-% Proof of Convergence of Metropolis-Hastings MCMC
+% Metropolis-Hastings MCMC,  Proof of Convergence of 
 \begin{flashcard}{Convergence of Metropolis-Hastings MCMC}
 Convergence follows from \emph{detailed balance}. Given a target distribution $p$, proposal distribution $q$, and acceptance probability $A$,
 \begin{multline*}
 p(z)q(z'|z)A(z', z)= \min\left[p(z)q(z'|z), p(z')q(z|z')\right]= \\ \min\left[p(z')q(z|z'), p(z)q(z'|z)\right] = p(z')q(z|z')A(z,z').
 \end{multline*}
+\end{flashcard}
+
+% Orthogonal Projection
+\begin{flashcard}{Orthogonal Projection}
+\begin{flushleft}
+The \emph{orthogonal projection} of $x$ onto a unit vector $v$ is 
+$$\mathrm{proj}_v x = v(v\cdot x) = vv^T x.$$
+
+Consider a vector $x\in X$ and subspace $V$ with \emph{orthonormal} basis $v_1,\dots,v_n$. Then the orthogonal projection of $x$ onto $V$ is 
+\begin{align*}
+\mathrm{proj}_V x &= \sum_{i=1}^n \mathrm{proj}_{v_i} x=\sum_{i=1}^n v_iv_i^Tx= \begin{bmatrix}v_1 & \cdots & v_n\end{bmatrix}\begin{bmatrix}v_1^T\\ \vdots\\ v_n^T\end{bmatrix} x,
+\end{align*}
+since the $v_i$ are pairwise orthogonal. Thus the matrix of $\mathrm{proj}_V x$ is $AA^T$, where $A$ is the matrix whose columns are the orthonormal basis. (Cf. least-square fit.)
+\end{flushleft}
 \end{flashcard}
 
 %Principal Component Analysis
@@ -62,4 +92,5 @@ Solutions are given by eigenvectors of $S$. Choose the one with the largest eige
 \textsf{\textbf{Note:}} Maximizing variance is equivalent to minimizing the sum of square distance.
 \end{flushleft}
 \end{flashcard}
+
 \end{document}
