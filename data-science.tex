@@ -1,0 +1,65 @@
+\documentclass[avery5388, grid]{flashcards}
+\usepackage{amsmath}
+\begin{document}
+\makeatletter
+\renewcommand*\env@matrix[1][c]{\hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols #1}}
+\makeatother
+
+\cardfrontstyle[\sf\bfseries]{headings}
+\cardfrontfootstyle[\small\sf]{right}
+
+% Data Science Cards
+\cardfrontfoot{Data Science}
+% k-means clusterings
+\begin{flashcard}{$k$-means Clustering\\ (EM Interpretation)}
+\textsc{Goal:} Given observations $x_1$, \dots, $x_N$, form assign each point to one of $K$ clusters of with centers $\mu_i$.
+\begin{flushleft}
+Let $r_{nk}$ be 1 if observation $x_n$ is currently assigned to cluster $k$ and zero otherwise. Define the \emph{distortion}
+$$J = \sum_{n=1}^N\sum_{k=1}^K r_{nk}\| x_n - \mu_k\| ^2.$$
+Find the assignments $r_{nk}$ and cluster centers $\mu_k$ that minimize $J$ by iterating alternative steps:\\
+\vskip 3pt
+\begin{tabular}{l l}
+\textsf{E-step:} & \textsf{M-step:}\\
+$r_{nk} \gets \left\{\begin{matrix}[l] 1 &  \text{if } k=\mathrm{argmin}_j \| x_n-\mu_j \|^2\\ 0 & \text{otherwise}\end{matrix}\right.$,
+& $\mu_k \gets \displaystyle\sum_n r_{nk} x_n\left/\displaystyle\sum_n r_{nk}\right.$
+\end{tabular}
+\end{flushleft}
+\end{flashcard}
+
+% Metropolis-Hastings Algorithm
+\begin{flashcard}{Metropolis-Hastings Algorithm\\(MCMC)}
+\textsc{Goal:} Sample from a target distribution $p=\tilde{p}(z)/Z_p$, with normalization constant $Z_p$, using a simpler proposal distribution $q$.
+\begin{flushleft}
+Given the current state $z^{(\tau)}$ at time $\tau$, draw a sample a proposal $z^*$ from $q(z|z^{(\tau)})$. Accept $z^*$ with probability 
+$$A(z^*, z^{(\tau)}) = \min\left(1, \frac{\tilde{p}(z^*)}{q(z^*|z^{(\tau)})}\cdot \frac{q(z^{(\tau)}|z^*)}{\tilde{p}(z^{(\tau)})}\right).$$
+Otherwise, stay put and $z^{(\tau+1)}=z^{(\tau)}.$
+\vskip 5pt
+The first term in the acceptance product represents movement to $z^*$; the second term represents the inertia to stay at $z^{(\tau)}$.
+\vskip 5pt
+\textsf{\textbf{Note:}} Usually the first several hundred samples are discarded as a \emph{burn-in} while the chains mix.
+\end{flushleft}
+\end{flashcard}
+
+% Proof of Convergence of Metropolis-Hastings MCMC
+\begin{flashcard}{Convergence of Metropolis-Hastings MCMC}
+Convergence follows from \emph{detailed balance}. Given a target distribution $p$, proposal distribution $q$, and acceptance probability $A$,
+\begin{multline*}
+p(z)q(z'|z)A(z', z)= \min\left[p(z)q(z'|z), p(z')q(z|z')\right]= \\ \min\left[p(z')q(z|z'), p(z)q(z'|z)\right] = p(z')q(z|z')A(z,z').
+\end{multline*}
+\end{flashcard}
+
+%Principal Component Analysis
+\begin{flashcard}{Principal Component Analysis}
+\textsc{Goal:} Given a collection of observations $x_1$,\dots,$x_N$, find a subspace of maximal variation represented by the unit vector $u$.\\
+\begin{flushleft}
+The variance in the projection is $\frac{1}{N}\sum_1^N\left[u^Tx_n -u^T \bar{x}\right]^2=u^TSu,$ where 
+$S = \frac{1}{N}\sum_1^N(x_n-\bar{x})(x_n-\bar{x})^T$ is the sum of the projections spanned by $x_n-\bar{x}$. Use Lagrange multipliers to minimize the projection given the constraint $|u|=1$:
+$$\frac{\partial}{\partial u}\left(u^TSu + \lambda(1-u^Tu)\right)=0.$$
+Solutions are given by eigenvectors of $S$. Choose the one with the largest eigenvalue.
+\vskip 5pt
+\textsf{\textbf{Note:}} Maximizing variance is equivalent to minimizing the sum of square distance.
+\end{flushleft}
+\end{flashcard}
+\end{document}

@@ -1,0 +1,49 @@
+\documentclass[avery5388, grid]{flashcards}
+\usepackage{amsmath}
+\begin{document}
+\makeatletter
+\renewcommand*\env@matrix[1][c]{\hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{*\c@MaxMatrixCols #1}}
+\makeatother
+
+\cardfrontstyle[\sf\bfseries]{headings}
+\cardfrontfootstyle[\small\sf]{right}
+
+% Algorithms
+\cardfrontfoot{Algorithms}
+% BST Search
+\begin{flashcard}{Binary Search Tree Search\\(Recursive)}
+\begin{flushleft}
+\textsf{\textbf{Input:}} value $x$, and root node $n$ of a (sub-)BST.\\
+\textsf{\textbf{Output:}} \textsf{true} if $x$ is in the tree, \textsf{false} otherwise.
+\vskip 5pt
+\textsc{Binary-search}($x$, $n$):\\
+\quad if $n=\textsc{nil}$ then return \textsf{false}\\
+\quad if $x=\textsc{key}[n]$ then return \textsf{true}\\
+\quad if $x < \textsc{key}[n]$ then return \textsc{Binary-search}(x, \textsc{left}[n])\\
+\quad else return \textsc{Binary-search}(x, \textsc{right}[n])
+\vskip 5pt
+\textsf{\textbf{Run Time:}} $O(\lg\mathrm{depth}(n))$
+\end{flushleft}
+\end{flashcard}
+
+% Order statistics
+\begin{flashcard}{Order Statistics:\\ $k$-th Smallest Element}
+\begin{flushleft}
+\textsf{\textbf{Input:}} Array of values $A$ and rank $k \leq \textsc{length[A]}$.\\
+\textsf{\textbf{Output:}} The element of $A$ of rank $k$
+\vskip 5pt
+\textsc{Select-rank}($A$, $k$):\\
+\quad Select a pivot point $x \in A$\\
+\quad $A \gets \textsc{Partition}(A) = [\leq x\, |\, x \,|\, \geq x]$\\
+\quad if \textsc{length}$[\leq x] = i$ then return $x$.\\
+\quad else search in the appropriate partition, remembering to keep track of lengths.
+\vskip 5pt
+\textsf{\textbf{Worse-case Run Time:}} $\Theta(\mathrm{length}(A)^2)$ if the pivot chosen is always the largest element available.\\
+\textsf{\textbf{Average-case:}} $\Theta(\mathrm{length}(A))$.\\
+\vskip 5pt
+To guarantee linear time, pivot around the median of medians.
+\end{flushleft}
+\end{flashcard}
+\end{document}
